@@ -6,7 +6,7 @@ require 'rubyserial'
 # -------------------------------------------------------- #
 class Relay
   def initialize(device:, baudrate: 115_200, bytesize: 8)
-    @serial = serial.Serial(device, baudrate, bytesize)
+    @serial = Serial.new device, baudrate, bytesize
   end
 
   # turn on a relay
