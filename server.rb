@@ -1,25 +1,24 @@
 require 'rack'
 require 'json'
 require 'pry-byebug'
-require 'active_support/all'
 
 require './relay'
 
 relay = Relay.new('/dev/ttyUSB0')
 
 def valid_request?(params)
-  return false unless (1..8).cover? params[:relay].to_i
-  return false unless %w[on off].include? params[:status]
+  return false unless (1..8).cover? params['relay'].to_i
+  return false unless %w[on off].include? params['status']
   true
 end
 
 app = proc do |env|
   request = Rack::Request.new(env)
-  params = request.params.symbolize_keys
+  params = request.params
   unless valid_request?(params)
     next ['400', { 'Content-Type' => 'text/html'}, ['Invalid Request']]
   end
-  result = relay.send params[:status], params[:relay]
+  result = relay.send params['status'], params['relay']
   ['200', { 'Content-Type' => 'text/html' }, [result]]
 end
 
