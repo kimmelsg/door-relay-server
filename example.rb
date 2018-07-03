@@ -1,4 +1,4 @@
-require 'relay'
+require './relay'
 
 relay = Relay.new(device: '/dev/ttyUSB0')
 
