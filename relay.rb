@@ -103,13 +103,17 @@ class Relay
   # @params [String] data String response from serial.
   # @return [Boolean] Success?
   def valid_handshake?(data)
-    data[0, 1].ord == 170
+    result = data[0, 1].ord == 170
+    puts 'Invalid Handshake' unless result
+    result
   end
 
   # @params [String] data String response from serial.
   # @return [Boolean] Success?
   def valid_bytes_back?(data)
-    data[1, 2].ord == (data.length - 3)
+    result = data[1, 2].ord == (data.length - 3)
+    puts 'Invalid Bytes Back' unless result
+    result
   end
 
   # @params [String] data String response from serial.
@@ -121,6 +125,8 @@ class Relay
     (0..sub_length).each do |byte|
       dsum += data[byte, byte + 1].ord
     end
-    (dsum & 255) == data[sub_length, length]
+    result = (dsum & 255) == data[sub_length, length]
+    puts 'Invalid Checksum' unless result
+    result
   end
 end
