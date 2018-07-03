@@ -55,8 +55,8 @@ class Relay
   # @return [String]
   def send_command(command, return_bytes_length = 4)
     command = convert_data(command) # command:string
-    read_data(return_bytes_length)
     serial.write(command) # command:string
+    read_data(return_bytes_length)
   end
 
   # 'rubyserial' does not garuntee length of data read
@@ -65,7 +65,7 @@ class Relay
   def read_data(return_bytes_length)
     length = return_bytes_length
     data = ''
-    while return_bytes_length > 0 do
+    while length > 0
       ret = serial.read(length)
       data += ret
       length -= ret.length
