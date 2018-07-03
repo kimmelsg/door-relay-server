@@ -19,7 +19,7 @@ app = proc do |env|
     next ['400', { 'Content-Type' => 'text/html' }, ['Invalid Request']]
   end
   result = relay.send params['status'], params['relay'].to_i
-  ['200', { 'Content-Type' => 'text/html' }, [result]]
+  ['200', { 'Content-Type' => 'text/html' }, [result.to_s]]
 end
 
 Rack::Handler::WEBrick.run app
