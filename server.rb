@@ -16,9 +16,9 @@ app = proc do |env|
   request = Rack::Request.new(env)
   params = request.params
   unless valid_request?(params)
-    next ['400', { 'Content-Type' => 'text/html'}, ['Invalid Request']]
+    next ['400', { 'Content-Type' => 'text/html' }, ['Invalid Request']]
   end
-  result = relay.send params['status'], params['relay']
+  result = relay.send params['status'], params['relay'].to_i
   ['200', { 'Content-Type' => 'text/html' }, [result]]
 end
 
