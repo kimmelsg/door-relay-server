@@ -125,7 +125,7 @@ class Relay
     (0..sub_length).each do |byte|
       dsum += data[byte, byte + 1].ord
     end
-    result = (dsum & 255) == data[sub_length, length]
+    result = (dsum & 255) == data[sub_length, length].ord
     puts 'Invalid Checksum' unless result
     result
   end
