@@ -13,15 +13,17 @@ class Relay
   def on(relay)
     lsb = relay - 1 & 255
     msb = relay >> 8
-    command = wrap_in_api([254, 48, lsb, msb])
-    process_control_command_return(send_command(command, 4))
+    command = wrap_in_api([254, 48, lsb, msb]) # command:[]
+    result = send_command(command) # result:string
+    process_control_command_return(result)
   end
 
   def off(relay)
     lsb = relay - 1 & 255
     msb = relay >> 8
     command = wrap_in_api([254, 47, lsb, msb])
-    process_control_command_return(send_command(command, 4))
+    result = send_command(command)
+    process_control_command_return(result)
   end
 
   private
@@ -29,6 +31,7 @@ class Relay
   attr_reader :serial
 
   # verify data is setup for controller to process
+  # data:[]
   def wrap_in_api(data)
     bytes_in_packet = data.length
     data = data.unshift(bytes_in_packet)
@@ -37,18 +40,24 @@ class Relay
   end
 
   # add checksum to the data
+  # data:[]
   def add_checksum(data)
     data << (data.inject(0) { |sum, x| sum + x } & 255)
   end
 
   # send command to serial device
-  def send_command(command, return_bytes_length)
-    command = convert_data(command)
-    serial.write(command)
+  # command:[]
+  # return_bytes_length:int
+  # @return string
+  def send_command(command, return_bytes_length = 4)
+    command = convert_data(command) # command:string
+    serial.write(command) # command:string
     serial.read(return_bytes_length)
   end
 
   # Convert data into bit/bytes?
+  # command:[]
+  # @return string
   def convert_data(command)
     converted = ''
     command.each do |c|
@@ -58,12 +67,14 @@ class Relay
   end
 
   # determine validity of control_command
+  # data:string
   def process_control_command_return(data)
     return false unless valid?(data)
     true
   end
 
   # grouped validation
+  # data:string
   def valid?(data)
     return false unless valid_handshake?(data)
     return false unless valid_bytes_back?(data)
@@ -82,15 +93,24 @@ class Relay
   end
 
   # Validation of Data
+  # data:string
   def valid_handshake?(data)
+    puts 'Handshake Data: '
+    puts data
     data[0, 1].ord == 170
   end
 
+  # data:string
   def valid_bytes_back?(data)
+    puts 'Valid Bytes Back: '
+    puts data
     data[1, 2].ord == (data.length - 3)
   end
 
+  # data:string
   def valid_checksum?(data)
+    puts 'Valid Checksum: '
+    put data
     length = data.length
     sub_length = length - 1
     dsum = 0
