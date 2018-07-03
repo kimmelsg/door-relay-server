@@ -1,0 +1,39 @@
+[Unit]
+Description=Puma HTTP Server
+After=network.target
+
+# Uncomment for socket activation (see below)
+# Requires=puma.socket
+
+[Service]
+# Foreground process (do not use --daemon in ExecStart or config.rb)
+Type=simple
+
+# Preferably configure a non-privileged user
+User=door
+
+# The path to the puma application root
+# Also replace the "<WD>" place holders below with this path.
+WorkingDirectory=/home/door/door-usb-relay
+
+# Helpful for debugging socket activation, etc.
+# Environment=PUMA_DEBUG=1
+
+# The command to start Puma. This variant uses a binstub generated via
+# `bundle binstubs puma --path ./sbin` in the WorkingDirectory
+# (replace "<WD>" below)
+ExecStart=/home/door/.rbenv/shims/ruby server.rb
+
+PIDFile=/home/door/server.pid
+
+Restart=always
+
+# output goes to /var/log/syslog
+StandardOutput=syslog
+StandardError=syslog
+
+# This will default to "bundler" if we don't specify it
+SyslogIdentifier=door-server
+
+[Install]
+WantedBy=multi-user.target
