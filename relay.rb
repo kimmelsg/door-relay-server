@@ -56,7 +56,21 @@ class Relay
   def send_command(command, return_bytes_length = 4)
     command = convert_data(command) # command:string
     serial.write(command) # command:string
-    serial.read(return_bytes_length)
+    read_data(return_bytes_length)
+  end
+
+  # 'rubyserial' does not garuntee length of data read
+  # @param [Integer] return_bytes_length Expected length of returned data.
+  # @return [String] The data returned from the read.
+  def read_data(return_bytes_length)
+    length = return_bytes_length
+    data = ''
+    while return_bytes_length > 0 do
+      ret = serial.read(length)
+      data += ret
+      length -= ret.length
+    end
+    data
   end
 
   # Convert data into bit/bytes?
