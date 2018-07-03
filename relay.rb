@@ -51,7 +51,7 @@ class Relay
   # Convert data into bit/bytes?
   def convert_data(command)
     converted = ''
-    command.each_char do |c|
+    command.each do |c|
       converted << c.chr
     end
     converted
