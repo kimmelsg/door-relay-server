@@ -29,6 +29,7 @@ request.body = "------WebKitFormBoundary7MA4YWxkTrZu0gW\r\nContent-Disposition: 
 response = http.request(request)
 puts response.read_body
 ```
+(copied from postman)
 
 ---
 ## Logging
