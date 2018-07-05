@@ -6,6 +6,13 @@ This repository manages a NCD relay thats connected via USB, and is controlled b
 * Returns result object to return to the request client
 * Logs each request
 
+### Requirements
+
+* Ruby 2.5.1
+* Ruby Bundler
+* Nginx Proxy
+* SQLite3 Installed
+
 ---
 
 ## Sending a Relay Reuqest
