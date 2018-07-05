@@ -1,6 +1,8 @@
 #!/usr/bin/env ruby
 require './bootstrap'
 
+DB = SQLite3::Database.new(CONFIG[:logging][:database])
+
 check_for_table = <<-'SQL'
   select name from sqlite_master where type='table' and name='requests';
 SQL
@@ -10,7 +12,7 @@ create_log_table = <<-SQL
     scan int,
     relay int,
     command varchar(5),
-    result varchar(255),
+    response text,
     created_at datetime default current_timestamp
   );
 SQL

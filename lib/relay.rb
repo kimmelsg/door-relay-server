@@ -95,17 +95,17 @@ class Relay
   # @params [String] data String response from serial.
   # @return [Boolean] Success?
   def process_control_command_return(data)
-    return false unless valid?(data)
-    true
+    valid?(data)
   end
 
   # @params [String] data String response from serial.
   # @return [String] Payload data.
   def process_read_command_return(data)
-    return false unless valid?(data)
-    get_payload(data)
+    valid?(data, payload: get_payload(data))
   end
 
+  # @params [String] data Data to convert to payload.
+  # @return [Array] Some sort of response from the relay.
   def get_payload(data)
     payload = []
     sub_length = data.length - 1
@@ -117,18 +117,17 @@ class Relay
 
   # @params [String] data String response from serial.
   # @return [Boolean] Sucess?
-  def valid?(data)
-    return false unless valid_handshake?(data)
-    return false unless valid_bytes_back?(data)
-    return false unless valid_checksum?(data)
-    true
+  def valid?(data, payload: nil)
+    return Result.failure('Invalid Handshake') unless valid_handshake?(data)
+    return Result.failure('Invalid Bytes Back') unless valid_bytes_back?(data)
+    return Result.failure('Invalid Checksum') unless valid_checksum?(data)
+    Result.success(payload: payload)
   end
 
   # @params [String] data String response from serial.
   # @return [Boolean] Success?
   def valid_handshake?(data)
     result = data[0, 1].ord == 170
-    puts 'Invalid Handshake' unless result
     result
   end
 
@@ -136,7 +135,6 @@ class Relay
   # @return [Boolean] Success?
   def valid_bytes_back?(data)
     result = data[1, 2].ord == (data.length - 3)
-    puts 'Invalid Bytes Back' unless result
     result
   end
 
@@ -150,7 +148,6 @@ class Relay
       dsum += data[byte, byte + 1].ord
     end
     result = (dsum & 255) == data[sub_length, length].ord
-    puts 'Invalid Checksum' unless result
     result
   end
 end
