@@ -13,6 +13,14 @@ This repository manages a NCD relay thats connected via USB, and is controlled b
 * Nginx Proxy
 * SQLite3 Installed
 
+### Configuration
+
+Setup a new configuration file by coping `config.example.yml` to `config.yml`.
+
+* `debug` Disables the connection to the serial device, mocks `Relay`.
+* `logging.database` The SQLite3 database to log requests.
+* `relay.file` The location to the usb/serial file.
+
 ---
 
 ## Sending a Relay Reuqest
