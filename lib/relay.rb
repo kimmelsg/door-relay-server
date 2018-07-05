@@ -149,7 +149,6 @@ class Relay
     (0..sub_length).each do |byte|
       dsum += data[byte, byte + 1].ord
     end
-    result = (dsum & 255) == data[sub_length, length].ord
-    result
+    (dsum & 255) == data[sub_length, length].ord
   end
 end

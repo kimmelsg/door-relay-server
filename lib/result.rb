@@ -9,7 +9,7 @@ class Result
 
   def self.failure(message: nil)
     result = create_result
-    result.new(success?: false, message: message, payload: false)
+    result.new(success?: false, message: message, payload: nil)
   end
 
   private_class_method def self.create_result
