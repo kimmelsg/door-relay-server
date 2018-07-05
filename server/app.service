@@ -16,7 +16,7 @@ WorkingDirectory=/home/door/door-usb-relay
 # Helpful for debugging socket activation, etc.
 
 # The command to start Puma. This variant uses a binstub generated via
-ExecStart=/home/door/door-usb-relay/bin/server
+ExecStart=/home/door/.rbenv/shims/ruby bin/server
 
 Restart=always
 
