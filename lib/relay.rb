@@ -31,6 +31,14 @@ class Relay
     process_control_command_return(result)
   end
 
+  def status(relay)
+    lsb = relay - 1 & 255
+    msb = relay >> 8
+    command = wrap_in_api([254, 44, lsb, msb])
+    result = send_command(command)
+    process_read_command_return(result)
+  end
+
   private
 
   attr_reader :serial
@@ -89,6 +97,22 @@ class Relay
   def process_control_command_return(data)
     return false unless valid?(data)
     true
+  end
+
+  # @params [String] data String response from serial.
+  # @return [String] Payload data.
+  def process_read_command_return(data)
+    return false unless valid?(data)
+    get_payload(data)
+  end
+
+  def get_payload(data)
+    payload = []
+    sub_length = data.length - 1
+    (2..sub_length).each do |byte|
+      payload << data[byte, byte + 1].ord
+    end
+    payload
   end
 
   # @params [String] data String response from serial.

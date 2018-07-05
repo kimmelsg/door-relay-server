@@ -1,0 +1,45 @@
+#!/usr/bin/env ruby
+require './bootstrap'
+
+def valid_request?(relay:, status:)
+  return false unless (1..8).cover? relay
+  return false unless %w[on off].include? status
+  true
+end
+
+def log_request(scan:, relay:, status:, result:)
+  DB.execute(
+    'INSERT INTO requests ( `scan`, `RELAY`, `status`, `result` ) VALUES ( ?, ?, ?, ? )',
+    [scan, relay, status, result]
+  )
+end
+
+app = proc do |env|
+  request = Rack::Request.new(env)
+  params = request.params
+
+  scan_id = params['scan_id']
+  relay = params['relay'].to_i
+  status = params['status']
+
+  unless valid_request?(relay: relay, status: status)
+    log_request(
+      scan: scan_id,
+      relay: relay,
+      status: status,
+      result: 'Invalid Request'
+    )
+    next ['400', { 'Content-Type' => 'text/html' }, ['Invalid Request']]
+  end
+
+  result = RELAY.send status, relay
+  log_request(
+    scan: scan_id,
+    relay: relay,
+    status: status,
+    result: "Valid: #{result}"
+  )
+  ['200', { 'Content-Type' => 'text/html' }, [result.to_s]]
+end
+
+Rack::Handler::WEBrick.run app

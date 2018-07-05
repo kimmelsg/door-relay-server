@@ -1,0 +1,4 @@
+:logging:
+  :database: ../sqlite/doors.db
+:relay:
+  :file: /dev/ttyUSB0

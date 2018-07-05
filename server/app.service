@@ -22,9 +22,7 @@ WorkingDirectory=/home/door/door-usb-relay
 # The command to start Puma. This variant uses a binstub generated via
 # `bundle binstubs puma --path ./sbin` in the WorkingDirectory
 # (replace "<WD>" below)
-ExecStart=/home/door/.rbenv/shims/ruby server.rb
-
-PIDFile=/home/door/server.pid
+ExecStart=bin/server
 
 Restart=always
 

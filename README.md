@@ -47,7 +47,7 @@ Logging is sent to a local sqlite database.
 
 The ruby HTTP Rack Server is controlled via:
 
-`/door-relay-server $ ruby server.rb`
+`/door-relay-server $ ./bin/server`
 
 Although you probably don't want to use this command, as its managed by `systemd` via the service configuration in `/server/app.service`.
 
