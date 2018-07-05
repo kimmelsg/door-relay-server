@@ -12,6 +12,8 @@ This repository manages a NCD relay thats connected via USB, and is controlled b
 
 Sending a request to turn relay '1' to 'on', or 'closed'.
 
+Send a simple POST request, with parameters `relay` to indicate the index of the relay (1-8) and `status` to indicate whether you want the relay to turn `on` ( closed circuit ) or `off` ( open circuit ).
+
 ```ruby
 require 'uri'
 require 'net/http'
