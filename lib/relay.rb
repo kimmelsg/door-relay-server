@@ -1,5 +1,7 @@
 require 'rubyserial'
 
+require './lib/result'
+
 # -------------------------------------------------------- #
 # This class is a interface between a NCD serial relay
 # and ruby.
