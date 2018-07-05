@@ -123,7 +123,7 @@ class Relay
     return Result.failure('Invalid Handshake') unless valid_handshake?(data)
     return Result.failure('Invalid Bytes Back') unless valid_bytes_back?(data)
     return Result.failure('Invalid Checksum') unless valid_checksum?(data)
-    Result.success(message: nil, payload: payload)
+    Result.success(payload: payload)
   end
 
   # @params [String] data String response from serial.

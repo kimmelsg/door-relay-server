@@ -2,12 +2,12 @@
 # Simple result object.
 #
 class Result
-  def self.success(message:, payload: nil)
+  def self.success(message: nil, payload: nil)
     result = create_result
     result.new(success?: true, message: message, payload: payload)
   end
 
-  def self.failure(message:)
+  def self.failure(message: nil)
     result = create_result
     result.new(success?: false, message: message, payload: false)
   end
