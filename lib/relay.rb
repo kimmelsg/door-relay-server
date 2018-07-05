@@ -129,15 +129,13 @@ class Relay
   # @params [String] data String response from serial.
   # @return [Boolean] Success?
   def valid_handshake?(data)
-    result = data[0, 1].ord == 170
-    result
+    data[0, 1].ord == 170
   end
 
   # @params [String] data String response from serial.
   # @return [Boolean] Success?
   def valid_bytes_back?(data)
-    result = data[1, 2].ord == (data.length - 3)
-    result
+    data[1, 2].ord == (data.length - 3)
   end
 
   # @params [String] data String response from serial.
