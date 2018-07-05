@@ -76,7 +76,7 @@ class Relay
     length = return_bytes_length
     data = ''
     while length > 0
-      ret = serial.read(length)
+      ret = serial.read(1)
       data += ret
       length -= ret.length
     end
