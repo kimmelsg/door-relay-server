@@ -50,7 +50,7 @@ class Application
 
   def valid_request?
     return false unless (1..8).cover? params[:relay]
-    return false unless %w[on status off].include? params[:command]
+    return false unless %w[on off].include? params[:command]
     true
   end
 
