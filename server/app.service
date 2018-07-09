@@ -11,12 +11,12 @@ User=door
 
 # The path to the puma application root
 # Also replace the "<WD>" place holders below with this path.
-WorkingDirectory=/home/door/door-usb-relay
+WorkingDirectory=/home/deploy/server/door-relay-server
 
 # Helpful for debugging socket activation, etc.
 
 # The command to start Puma. This variant uses a binstub generated via
-ExecStart=/home/door/.rbenv/shims/ruby bin/server
+ExecStart=/home/deploy/.rbenv/shims/ruby bin/server
 
 Restart=always
 
@@ -25,7 +25,7 @@ StandardOutput=syslog
 StandardError=syslog
 
 # This will default to "bundler" if we don't specify it
-SyslogIdentifier=door-server
+SyslogIdentifier=door-relay-server
 
 [Install]
 WantedBy=multi-user.target
