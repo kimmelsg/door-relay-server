@@ -78,3 +78,7 @@ To restar the HTTP Sever:
 ## Nginx Configuration
 
 The nginx configuration simply proxies the requests from to `localhost:8080` which is what the ruby HTTP server is binded too.
+
+## Testing
+
+There are currently minimal testing added. To run tests simply run `rspec`.
