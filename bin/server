@@ -5,7 +5,7 @@ app = proc do |env|
   request = Rack::Request.new(env)
   params = request.params
 
-  scan_id = params['scan_id']
+  scan_id = params['scan']
   relay = params['relay'].to_i
   command = params['command']
 
