@@ -11,7 +11,7 @@ User=deploy
 
 # The path to the puma application root
 # Also replace the "<WD>" place holders below with this path.
-WorkingDirectory=/home/deploy/server/door-relay-server
+WorkingDirectory=/home/deploy/server/door-relay-server/current
 
 # Helpful for debugging socket activation, etc.
 
