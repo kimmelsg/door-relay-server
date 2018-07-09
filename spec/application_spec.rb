@@ -3,7 +3,7 @@ require 'json'
 require './bootstrap'
 
 describe Application do
-  describe 'request' do
+  describe '#request' do
     it 'returns invalid request json for a invalid request' do
       app = described_class.new(CONFIG)
 
