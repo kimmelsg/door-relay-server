@@ -7,7 +7,7 @@ After=network.target
 Type=simple
 
 # Preferably configure a non-privileged user
-User=door
+User=deploy
 
 # The path to the puma application root
 # Also replace the "<WD>" place holders below with this path.
