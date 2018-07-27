@@ -77,8 +77,10 @@ class Application
   end
 
   def send_scan_command
-    on_result = params[:command] = 'on' && send_command
-    off_result = params[:command] = 'off' && send_command
+    params[:command] = 'on'
+    on_result = send_command
+    params[:command] = 'off'
+    off_result = send_command
     response = {
       success: on_result.success? && off_result.success?,
       message: `#{on_result.message} && #{off_result.message}`,
