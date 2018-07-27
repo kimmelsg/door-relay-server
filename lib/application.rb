@@ -22,12 +22,14 @@ class Application
       relay: relay
     }
     return invalid_request unless valid_request?
+    return send_scan_command if command == 'scan'
     valid_request
   end
 
   private
 
   attr_reader :config, :relay, :params
+  attr_writer :params
 
   def setup_relay
     if config[:debug]
@@ -50,7 +52,7 @@ class Application
 
   def valid_request?
     return false unless (1..8).cover? params[:relay]
-    return false unless %w[on off].include? params[:command]
+    return false unless %w[on off scan].include? params[:command]
     true
   end
 
@@ -69,6 +71,18 @@ class Application
       success: result.success?,
       message: result.message,
       payload: result.payload
+    }
+    log(response)
+    ['200', { 'Content-Type:' => 'text/html' }, [response.to_json]]
+  end
+
+  def send_scan_command
+    on_result = params[:command] = 'on' && send_command
+    off_result = params[:command] = 'off' && send_command
+    response = {
+      success: on_result.success? && off_result.success?,
+      message: `#{on_result.message} && #{off_result.message}`,
+      payload: `#{on_result.payload} && #{off_result.payload}`
     }
     log(response)
     ['200', { 'Content-Type:' => 'text/html' }, [response.to_json]]
