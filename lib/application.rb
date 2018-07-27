@@ -22,7 +22,6 @@ class Application
       relay: relay
     }
     return invalid_request unless valid_request?
-    return send_scan_command if command == 'scan'
     valid_request
   end
 
@@ -52,7 +51,7 @@ class Application
 
   def valid_request?
     return false unless (1..8).cover? params[:relay]
-    return false unless %w[on off scan].include? params[:command]
+    return false unless %w[on off].include? params[:command]
     true
   end
 
@@ -71,20 +70,6 @@ class Application
       success: result.success?,
       message: result.message,
       payload: result.payload
-    }
-    log(response)
-    ['200', { 'Content-Type:' => 'text/html' }, [response.to_json]]
-  end
-
-  def send_scan_command
-    params[:command] = 'on'
-    on_result = send_command
-    params[:command] = 'off'
-    off_result = send_command
-    response = {
-      success: on_result.success? && off_result.success?,
-      message: `#{on_result.message} && #{off_result.message}`,
-      payload: `#{on_result.payload} && #{off_result.payload}`
     }
     log(response)
     ['200', { 'Content-Type:' => 'text/html' }, [response.to_json]]
